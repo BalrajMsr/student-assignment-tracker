@@ -20,7 +20,7 @@ export const createAssignment = asyncHandler(
 
     const assignmentData = {
       ...req.body,
-      userId: new mongoose.Types.ObjectId(req.user.id),
+      userId: req.user.id,
     };
 
     const assignment = await Assignment.create(assignmentData);
@@ -44,10 +44,12 @@ export const getAssignments = asyncHandler(
     }
 
     // Optional query parameters for filtering and sorting
-    const { status, priority, sortBy = 'dueDate', sortOrder = 'asc' } = req.query;
+    const { status, priority } = req.query;
+    const sortBy = typeof req.query.sortBy === 'string' ? req.query.sortBy : 'dueDate';
+    const sortOrder = typeof req.query.sortOrder === 'string' ? req.query.sortOrder : 'asc';
 
     const query: any = {
-      userId: new mongoose.Types.ObjectId(req.user.id),
+      userId: req.user.id,
     };
 
     if (status) {
@@ -60,9 +62,7 @@ export const getAssignments = asyncHandler(
 
     const sortOptions: any = {};
     const validSortFields = ['dueDate', 'createdAt', 'priority', 'status'];
-    const sortField = validSortFields.includes(sortBy as string)
-      ? sortBy
-      : 'dueDate';
+    const sortField = validSortFields.includes(sortBy) ? sortBy : 'dueDate';
     sortOptions[sortField] = sortOrder === 'desc' ? -1 : 1;
 
     const assignments = await Assignment.find(query)
@@ -93,10 +93,10 @@ export const getAssignmentById = asyncHandler(
       throw new CustomError('Invalid assignment ID', 400);
     }
 
-    const assignment = await Assignment.findOne({
-      _id: id,
-      userId: new mongoose.Types.ObjectId(req.user.id),
-    });
+    const userId:any = req.user.id;
+    const assignmentId = id;
+    
+    const assignment = await Assignment.findOne({ _id: assignmentId, userId: userId.toString() });
 
     if (!assignment) {
       throw new CustomError('Assignment not found', 404);
@@ -127,11 +127,10 @@ export const updateAssignment = asyncHandler(
     }
 
     // Check if assignment exists and belongs to user
-    const assignment = await Assignment.findOne({
-      _id: id,
-      userId: new mongoose.Types.ObjectId(req.user.id),
-    });
-
+    const userId:any = req.user.id;
+    const assignmentId = id;
+    
+    const assignment = await Assignment.findOne({ _id: assignmentId, userId: userId.toString() });
     if (!assignment) {
       throw new CustomError('Assignment not found', 404);
     }
@@ -171,10 +170,10 @@ export const deleteAssignment = asyncHandler(
     }
 
     // Check if assignment exists and belongs to user
-    const assignment = await Assignment.findOne({
-      _id: id,
-      userId: new mongoose.Types.ObjectId(req.user.id),
-    });
+    const userId:any = req.user.id;
+    const assignmentId = id;
+    
+    const assignment = await Assignment.findOne({ _id: assignmentId, userId: userId.toString() });
 
     if (!assignment) {
       throw new CustomError('Assignment not found', 404);

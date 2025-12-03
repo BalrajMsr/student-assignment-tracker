@@ -1,7 +1,7 @@
 /**
  * Assignment model with validation and business logic
  */
-import mongoose, { Schema, Document } from 'mongoose';
+import mongoose, { Schema, Document, Types } from 'mongoose';
 
 export interface IAssignment extends Document {
   userId: Schema.Types.ObjectId;
@@ -18,8 +18,7 @@ export interface IAssignment extends Document {
 const AssignmentSchema = new Schema<IAssignment>(
   {
     userId: {
-      type: Schema.Types.ObjectId,
-      ref: 'User',
+      type: Types.ObjectId,
       required: true,
       index: true,
     },
