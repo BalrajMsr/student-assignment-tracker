@@ -29,7 +29,6 @@ import {
 } from "@/components/ui/card";
 import { Loader2, ArrowLeft } from "lucide-react";
 import Link from "next/link";
-import { useAuthRedirect } from "@/hooks/use-auth-redirect";
 import { Assignment } from "@/types";
 
 // Dynamic import for code splitting
@@ -54,9 +53,6 @@ export default function EditAssignment() {
   const [isLoading, setIsLoading] = useState(false);
   const [isFetching, setIsFetching] = useState(true);
   const [assignment, setAssignment] = useState<Assignment | null>(null);
-
-  // Handle authentication redirect
-  useAuthRedirect();
 
   const {
     register,

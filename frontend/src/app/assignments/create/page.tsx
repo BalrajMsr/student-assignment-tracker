@@ -29,7 +29,6 @@ import {
 } from "@/components/ui/card";
 import { Loader2, ArrowLeft } from "lucide-react";
 import Link from "next/link";
-import { useAuthRedirect } from "@/hooks/use-auth-redirect";
 
 // Dynamic import for code splitting
 const Navbar = dynamic(() => import("@/components/Navbar"), { ssr: false });
@@ -45,9 +44,6 @@ export default function CreateAssignment() {
   const router = useRouter();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
-
-  // Handle authentication redirect
-  useAuthRedirect();
 
   const {
     register,
