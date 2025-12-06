@@ -34,14 +34,16 @@ API.interceptors.response.use(
   (error: AxiosError) => {
     if (error.response) {
       const status = error.response.status;
-      
+
       if (status === 401 && isLoggedIn() && typeof window !== "undefined") {
         localStorage.removeItem("token");
         localStorage.removeItem("user");
         window.location.href = "/login";
       }
     }
-    
+
     return Promise.reject(error);
   }
 );
+
+export default API;

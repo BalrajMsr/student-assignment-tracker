@@ -13,11 +13,15 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { AuthContainer } from "@/components/auth-container";
 import { Loader2 } from "lucide-react";
+import { useAuthRedirect } from "@/hooks/use-auth-redirect";
 
 export default function Register() {
   const router = useRouter();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
+
+  // Redirect to dashboard if already authenticated
+  useAuthRedirect();
 
   const {
     register,

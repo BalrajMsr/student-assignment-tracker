@@ -50,10 +50,10 @@ export const createAssignment = async (
   data: AssignmentFormData
 ): Promise<Assignment> => {
   const res = await API.post("api/v1/assignments", data);
-  
+
   // Invalidate cache
   cache.delete("all-assignments");
-  
+
   return res.data?.data;
 };
 
@@ -69,10 +69,10 @@ export const updateAssignment = async (
   data: AssignmentFormData
 ): Promise<Assignment> => {
   const res = await API.put(`api/v1/assignments/${id}`, data);
-  
+
   // Invalidate cache
   cache.delete("all-assignments");
-  
+
   return res.data?.data;
 };
 
@@ -84,7 +84,7 @@ export const updateAssignment = async (
  */
 export const deleteAssignment = async (id: string): Promise<void> => {
   await API.delete(`api/v1/assignments/${id}`);
-  
+
   // Invalidate cache
   cache.delete("all-assignments");
 };
